@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AppStoreTorrent · Mac 软件中文下载导航（意大利语版）</title>
+<meta name="description" content="AppStoreTorrent（appstorrent.ru）上支持意大利语界面的 Mac 应用与游戏的中文导航页：按应用名或类别筛选，点选即跳转原站查看与下载。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#app-grid">跳到应用列表</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <span class="brand-box">AS</span>
+      <div class="brand-text">
+        <h1>AppStoreTorrent · 中文导航</h1>
+        <p class="brand-sub">意大利语版 Mac 应用与游戏 · 点击卡片跳转原站下载</p>
+      </div>
+    </div>
+    <p class="header-note">本站为中文辅助页，不存放任何文件。点「去原站下载」会在新窗口打开 <b>appstorrent.ru</b> 对应的软件页，由你自行完成下载。</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="controls" aria-label="筛选与搜索">
+    <label class="search-field">
+      <span class="sr-only">搜索应用</span>
+      <input id="search" type="search" placeholder="搜索软件名或类别…" autocomplete="off" aria-label="搜索应用">
+    </label>
+    <div id="cats" class="chips" role="group" aria-label="按类别筛选"></div>
+    <div class="result-bar">
+      <span id="count" class="count">加载中…</span>
+      <span class="hint">点卡片右下角「去原站下载」→ 跳转 appstorrent.ru</span>
+    </div>
+  </section>
+
+  <section id="app-grid" class="app-grid" aria-live="polite"></section>
+
+  <nav class="pager" aria-label="分页">
+    <button id="prevPage" class="pg" aria-label="上一页">← 上一页</button>
+    <span id="pageInfo" class="page-info">1 / 1</span>
+    <button id="nextPage" class="pg" aria-label="下一页">下一页 →</button>
+  </nav>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>数据来源：appstorrent.ru（AppStoreTorrent）。本页仅作中文检索入口，下载与安装请以原站为准。</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
