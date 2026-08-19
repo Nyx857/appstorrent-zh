@@ -48,7 +48,13 @@ body{
 .header-note b{color:#fff;font-weight:600}
 
 /* ===== 控制区 ===== */
-.controls{margin:22px 0 6px}
+.legend{display:flex;flex-wrap:wrap;gap:14px 18px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.legend-item{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:12px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.dot-native{background:var(--accent);box-shadow:0 0 6px rgba(61,220,132,.6)}
+.dot-ros{background:#ffc24a}
+.dot-lang{background:var(--accent2)}
+
 .search-field{display:block}
 .search-field input{
   width:100%;padding:13px 16px;border-radius:12px;
@@ -78,13 +84,33 @@ body{
 .app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:12px 0}
 .card{
   background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:16px;display:flex;flex-direction:column;gap:9px;
+  overflow:hidden;display:flex;flex-direction:column;
   transition:transform .15s,border-color .15s,background .15s;
 }
 .card:hover{border-color:rgba(255,255,255,.16);background:var(--panel2);transform:translateY(-2px)}
+.card-img{
+  position:relative;width:100%;aspect-ratio:16/8.2;overflow:hidden;
+  background:#0d1410 radial-gradient(120% 120% at 50% -10%, rgba(61,220,132,.14), transparent 60%);
+  display:grid;place-items:center;
+}
+.card-img img{width:100%;height:100%;display:block}
+.card-img img.media{object-fit:cover}
+.card-img img.icon{width:52px;height:52px;object-fit:contain;border-radius:10px}
+.card-img.img-fail img{opacity:0}
+.card-img.img-fail::before{
+  content:attr(data-key);position:absolute;inset:0;display:grid;place-items:center;
+  font-size:34px;font-weight:800;font-family:var(--mono);color:rgba(255,255,255,.28);
+  letter-spacing:.5px;text-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+.card-img.img-fail::after{content:'';position:absolute;inset:auto auto 8px 50%;transform:translateX(-50%);
+  width:44px;height:1px;background:rgba(255,255,255,.12)}
+.card-body{padding:13px 15px 15px;display:flex;flex-direction:column;gap:8px;flex:1}
 .card-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
 .card-title{font-size:15px;font-weight:700;line-height:1.4;word-break:break-word;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.badge{flex:none;font-size:11px;color:var(--accent2);border:1px solid rgba(43,184,222,.35);padding:1px 8px;border-radius:999px;white-space:nowrap}
+.badge{flex:none;font-size:11px;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.badge-native{color:#3ddc84;border:1px solid rgba(61,220,132,.4);background:rgba(61,220,132,.08)}
+.badge-ros{color:#ffc24a;border:1px solid rgba(255,194,74,.4);background:rgba(255,194,74,.08)}
+.badge-unknown{color:var(--muted);border:1px solid var(--line)}
 .card-zh{color:var(--muted);font-size:13px;line-height:1.6;min-height:2.5em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;align-items:baseline}
 .mtag{font-size:11px;color:var(--muted);background:rgba(255,255,255,.05);border:1px solid var(--line);padding:1px 8px;border-radius:6px}
@@ -116,9 +142,12 @@ body{
 
 @media (max-width:560px){
   .app-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .card{padding:12px}
+  .card-body{padding:10px 11px 12px}
   .card-title{font-size:13.5px}
   .card-zh{font-size:12px}
+  .card-dl{padding:9px 10px;font-size:13px}
+  .card-img img.icon{width:40px;height:40px;border-radius:8px}
+  .badge{font-size:9.5px;padding:1px 6px}
   .brand-box{width:44px;height:44px;font-size:17px;border-radius:12px}
   .brand-text h1{font-size:18px}
 }

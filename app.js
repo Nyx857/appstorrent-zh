@@ -131,34 +131,84 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
+  function nativeBadge(it) {
+    const arch = (it.a || '').toLowerCase();
+    const b = document.createElement('span');
+    if (arch.indexOf('arm') !== -1) {
+      b.className = 'badge badge-native';
+      b.textContent = '原生 Apple 芯片';
+      b.title = '原生支持 M 系列 (Apple Silicon)，无需转译';
+    } else if (arch.indexOf('x86') !== -1) {
+      b.className = 'badge badge-ros';
+      b.textContent = 'Intel · 需转译';
+      b.title = '仅支持 Intel，在 Apple 芯片上需经 Rosetta 转译运行';
+    } else {
+      b.className = 'badge badge-unknown';
+      b.textContent = '架构未知';
+    }
+    return b;
+  }
+
+  function imgBox(it) {
+    const box = document.createElement('div');
+    box.className = 'card-img';
+    // 优先配图(头图铺满)，其次图标(居中)，都没有则占位
+    const chain = [];
+    if (it.im) chain.push({ src: it.im, cls: 'media' });
+    if (it.ic) chain.push({ src: it.ic, cls: 'icon' });
+    if (!chain.length) return box;
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.alt = (it.n || '') + ' 图片';
+    let idx = 0;
+    const apply = function () {
+      if (idx >= chain.length) {
+        box.classList.add('img-fail');
+        box.setAttribute('data-key', (it.n || '').replace(/[^\u4e00-\u9fff\u0041-\u005a\u0061-\u007a0-9]/g, '').slice(0, 1) || '?');
+        return;
+      }
+      const cur = chain[idx++];
+      img.className = cur.cls;
+      img.src = cur.src;
+    };
+    img.addEventListener('error', apply);
+    img.addEventListener('load', function () { box.classList.remove('img-fail'); });
+    apply();
+    box.appendChild(img);
+    return box;
+  }
+
   function renderCard(it) {
     const a = document.createElement('article');
     a.className = 'card';
     a.setAttribute('data-id', it.id);
+    a.appendChild(imgBox(it));
+
+    const body = document.createElement('div');
+    body.className = 'card-body';
 
     const top = document.createElement('div');
     top.className = 'card-top';
     const h = document.createElement('h3');
     h.className = 'card-title';
     h.textContent = it.n || '未命名';
-    const badge = document.createElement('span');
-    badge.className = 'badge';
-    badge.textContent = it.a ? '支持 ' + it.a : 'macOS';
+    const badge = nativeBadge(it);
     top.appendChild(h);
     top.appendChild(badge);
-    a.appendChild(top);
+    body.appendChild(top);
 
     const zh = document.createElement('p');
     zh.className = 'card-zh';
     zh.textContent = it.z || '（暂无中文介绍）';
-    a.appendChild(zh);
+    body.appendChild(zh);
 
     const meta = document.createElement('div');
     meta.className = 'card-meta';
     if (it.v) { meta.appendChild(mtag('版本 ' + it.v)); }
     if (it.s) { meta.appendChild(mtag(it.s)); }
     if (it.dt) { meta.appendChild(mtag(it.dt.slice(0, 7))); }
-    a.appendChild(meta);
+    body.appendChild(meta);
 
     const link = document.createElement('a');
     link.className = 'card-dl';
@@ -166,8 +216,9 @@
     link.target = '_blank';
     link.rel = 'noopener';
     link.textContent = '去原站下载 ↗';
-    a.appendChild(link);
+    body.appendChild(link);
 
+    a.appendChild(body);
     return a;
   }
 
